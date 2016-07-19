@@ -15,8 +15,12 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var waterBillField: UITextField!
     @IBOutlet weak var priceGallonLabel: UILabel!
     @IBOutlet weak var showerTimeField: UITextField!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        let targetTime = Int(showerTimeField.text!) ?? 0
+        let hello = NSUserDefaults.standardUserDefaults()
+        hello.setInteger(targetTime,forKey: "timeOfShower")
         // Do any additional setup after loading the view, typically from a nib.
     }
     

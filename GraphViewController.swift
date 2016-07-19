@@ -50,7 +50,9 @@ class GraphViewController: UIViewController {
             let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
             dataEntries.append(dataEntry)
         }
-        
+        let hello = NSUserDefaults.standardUserDefaults()
+        let target = hello.integerForKey("timeOfShower")
+
         let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Shower Time")
         let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
         lineChartView.data = lineChartData
@@ -58,7 +60,7 @@ class GraphViewController: UIViewController {
         lineChartDataSet.colors = [UIColor(red: 30/255, green: 126/255, blue: 240/255, alpha: 1)]
         lineChartView.xAxis.labelPosition = .Bottom
         lineChartView.animate(xAxisDuration: 3.0, yAxisDuration: 3.0)
-        let ll = ChartLimitLine(limit: 10, label: "Target")
+        let ll = ChartLimitLine(limit: Double(target), label: "Target")
         lineChartView.rightAxis.addLimitLine(ll)
     }
 
