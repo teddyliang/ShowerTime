@@ -24,11 +24,26 @@ class SettingsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    @IBAction func firstCalculatePriceGallon(sender: AnyObject) {
+        guard let amountWaterUsed1 = Double(amountWaterUsedField.text!)
+            else{
+                return
+            }
+        guard let waterBill1 = Double(waterBillField.text!)
+            else{
+                return
+        }
+        let roundedAmountWaterUsed1 = round(100*amountWaterUsed1)/100
+        let roundedWaterBill1 = round(100*waterBill1)/100
+        let roundedPriceGallon1 = round(100*(roundedWaterBill1/roundedAmountWaterUsed1))/100
+        priceGallonLabel.text = "\(roundedPriceGallon1)"
+        
+    }
     @IBAction func calculatePriceGallon(sender: AnyObject) {
         guard let amountWaterUsed = Double(amountWaterUsedField.text!)
             else{
                 return
-        }
+            }
         guard let waterBill = Double(waterBillField.text!)
             else{
                 return
@@ -39,6 +54,11 @@ class SettingsViewController: UIViewController {
         priceGallonLabel.text = "\(roundedPriceGallon)"
 
     }
+    
+    @IBAction func userTappedBackground(sender: AnyObject) {
+        view.endEditing(true)
+    }
+    
 
 
 }
