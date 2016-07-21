@@ -243,27 +243,13 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeU-Qz-LeT">
-                                <rect key="frame" x="299" y="245" width="183" height="87"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="87" id="CqJ-aP-2hx"/>
-                                    <constraint firstAttribute="width" constant="183" id="yFz-D4-3J5"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="45"/>
-                                <state key="normal" title="Stop">
-                                    <color key="titleColor" red="0.0" green="0.39488407841127038" blue="0.90588235294117647" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="stopStopwatch:" destination="tL2-RY-ctF" eventType="touchUpInside" id="Keg-4k-x5O"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="khu-QO-vKf">
-                                <rect key="frame" x="110" y="245" width="201" height="87"/>
+                                <rect key="frame" x="143" y="245" width="174" height="87"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="201" id="bpx-m3-jyy"/>
-                                    <constraint firstAttribute="height" constant="87" id="ia8-kU-EC3"/>
+                                    <constraint firstAttribute="width" constant="174" id="Flk-bB-ORI"/>
+                                    <constraint firstAttribute="height" constant="87" id="IAA-iD-rV5"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="45"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="40"/>
                                 <state key="normal" title="Start">
                                     <color key="titleColor" red="0.0" green="0.16470588235294117" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -299,25 +285,37 @@
                                     <action selector="plusFive:" destination="tL2-RY-ctF" eventType="touchUpInside" id="q3F-80-HOL"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeU-Qz-LeT">
+                                <rect key="frame" x="289" y="245" width="162" height="87"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="87" id="2JC-TD-WWj"/>
+                                    <constraint firstAttribute="width" constant="162" id="p4z-YT-8Is"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="40"/>
+                                <state key="normal" title="Stop">
+                                    <color key="titleColor" red="0.0" green="0.39488407841127038" blue="0.90588235294117647" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="stopStopwatch:" destination="tL2-RY-ctF" eventType="touchUpInside" id="Keg-4k-x5O"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.77893699260963389" green="1" blue="0.99535516801384194" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="nhe-vB-38s" firstAttribute="centerX" secondItem="qgP-yi-z9x" secondAttribute="centerX" id="0tg-Iv-vxr"/>
-                            <constraint firstItem="teB-8C-gqs" firstAttribute="top" secondItem="khu-QO-vKf" secondAttribute="bottom" constant="21" id="2VM-pM-Dxh"/>
-                            <constraint firstItem="anZ-ec-nRL" firstAttribute="top" secondItem="eeU-Qz-LeT" secondAttribute="bottom" constant="21" id="BHI-N0-FNr"/>
+                            <constraint firstItem="eeU-Qz-LeT" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" constant="70" id="6AO-Lo-Idu"/>
                             <constraint firstAttribute="trailingMargin" secondItem="nhe-vB-38s" secondAttribute="trailing" constant="34" id="BZx-Y3-Jlr"/>
                             <constraint firstItem="nhe-vB-38s" firstAttribute="leading" secondItem="1E5-XP-Q6L" secondAttribute="leadingMargin" constant="34" id="D8D-Bd-Wnb"/>
-                            <constraint firstItem="eeU-Qz-LeT" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" constant="90" id="DfW-x7-KGQ"/>
-                            <constraint firstItem="qgP-yi-z9x" firstAttribute="top" secondItem="eeU-Qz-LeT" secondAttribute="bottom" constant="117" id="G6t-xf-WxE"/>
                             <constraint firstItem="F6d-L0-reV" firstAttribute="top" secondItem="qgP-yi-z9x" secondAttribute="bottom" constant="42" id="Kj4-LN-sD1"/>
-                            <constraint firstItem="khu-QO-vKf" firstAttribute="top" secondItem="nhe-vB-38s" secondAttribute="bottom" constant="32" id="LGd-4S-iNy"/>
-                            <constraint firstItem="qgP-yi-z9x" firstAttribute="top" secondItem="khu-QO-vKf" secondAttribute="bottom" constant="117" id="RMu-bE-2Ha"/>
-                            <constraint firstItem="eeU-Qz-LeT" firstAttribute="top" secondItem="nhe-vB-38s" secondAttribute="bottom" constant="32" id="T16-5f-w18"/>
+                            <constraint firstItem="teB-8C-gqs" firstAttribute="top" secondItem="khu-QO-vKf" secondAttribute="bottom" constant="21" id="Qz9-dY-4hN"/>
+                            <constraint firstItem="anZ-ec-nRL" firstAttribute="top" secondItem="eeU-Qz-LeT" secondAttribute="bottom" constant="21" id="S1x-mb-zDl"/>
                             <constraint firstItem="anZ-ec-nRL" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" constant="90" id="Tds-2H-CPQ"/>
+                            <constraint firstItem="khu-QO-vKf" firstAttribute="top" secondItem="nhe-vB-38s" secondAttribute="bottom" constant="32" id="U6U-RP-EfH"/>
                             <constraint firstItem="teB-8C-gqs" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" constant="-90" id="XSD-5w-v74"/>
-                            <constraint firstItem="khu-QO-vKf" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" constant="-90" id="cdI-4o-5Au"/>
+                            <constraint firstItem="eeU-Qz-LeT" firstAttribute="top" secondItem="nhe-vB-38s" secondAttribute="bottom" constant="32" id="a8E-nI-n2P"/>
                             <constraint firstItem="qgP-yi-z9x" firstAttribute="top" secondItem="teB-8C-gqs" secondAttribute="bottom" constant="34" id="eWW-7G-ge9"/>
                             <constraint firstItem="qgP-yi-z9x" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" id="ebL-Jn-7dB"/>
+                            <constraint firstItem="khu-QO-vKf" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" constant="-70" id="im2-0P-s6T"/>
                             <constraint firstItem="qgP-yi-z9x" firstAttribute="top" secondItem="anZ-ec-nRL" secondAttribute="bottom" constant="34" id="qrs-He-MEh"/>
                             <constraint firstItem="nhe-vB-38s" firstAttribute="top" secondItem="4vy-OP-6q3" secondAttribute="bottom" constant="37" id="z1o-wb-S22"/>
                         </constraints>

@@ -37,9 +37,13 @@ class GraphViewController: UIViewController {
         
         let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
         let timesArray = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
-        
+        var index = 0
+        var dic : [String:Double] = [:]
+        while index < 6 {
+            dic[months[index]] = timesArray[index]
+            index += 1
+        }
         setChart(months, values: timesArray)
-        
     }
     
     func setChart(dataPoints: [String], values: [Double]) {

@@ -9,7 +9,7 @@
 import UIKit
 import MZTimerLabel
 
-class TimerViewController: UIViewController {
+class TimerViewController: UIViewController, MZTimerLabelDelegate {
     
     @IBOutlet weak var timer: MZTimerLabel!
     @IBOutlet weak var startButton: UIButton!
@@ -21,6 +21,7 @@ class TimerViewController: UIViewController {
         timer_.timeFormat = "mm:ss"
         self.stopButton.enabled = false
         stopButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        timer.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -28,6 +29,7 @@ class TimerViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     @IBAction func startPauseResumeStopwatch(sender: AnyObject) {
         if timer.counting {
             timer.pause()
@@ -57,8 +59,13 @@ class TimerViewController: UIViewController {
         }
         else if stopButton.titleForState(.Normal) == "Save"{
             //Add to an array
+            func timerLabel(timerLabel: MZTimerLabel, finshedCountDownTimerWithTime countTime: NSTimeInterval) {
+                
+                
+            }
             stopButton.setTitle("Stop", forState: .Normal)
             startButton.setTitle("Start", forState: .Normal)
+            stopButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
             timer.reset()
         }
         else if stopButton.titleForState(.Normal) == "Stop" && startButton.titleForState(.Normal) == "Resume"{
@@ -76,6 +83,7 @@ class TimerViewController: UIViewController {
     @IBAction func plusFive(sender: AnyObject) {
         timer.addTimeCountedByTime(5)
     }
+    
     
     
     
