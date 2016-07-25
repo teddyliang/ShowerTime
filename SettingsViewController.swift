@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SwiftyUserDefaults
 class SettingsViewController: UIViewController {
 
     @IBOutlet weak var showerFlowRateField: UITextField!
@@ -18,9 +18,9 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let targetTime = Int(showerTimeField.text!) ?? 0
-        let hello = NSUserDefaults.standardUserDefaults()
-        hello.setInteger(targetTime,forKey: "timeOfShower")
+        let hi = NSUserDefaults.standardUserDefaults()
+        let hello = hi.doubleForKey("goalShower")
+        showerTimeField.text = String(hello)
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -61,6 +61,25 @@ class SettingsViewController: UIViewController {
     
     @IBAction func userTappedBackground(sender: AnyObject) {
         view.endEditing(true)
+    }
+    @IBAction func confirmButton(sender: AnyObject) {
+        if let isDouble = Double(showerTimeField.text!){
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setDouble(Double(showerTimeField.text!)!, forKey: "goalShower")
+            showerTimeField.text! = showerTimeField.text!
+        }
+        else{
+            showerTimeField.text = ""
+        }
+        
+//        if let isDouble = Double(showerTimeField.text!){
+//        let targetTime = Int(showerTimeField.text!)
+//        let goalShowerTime = NSUserDefaults.standardUserDefaults()
+//        goalShowerTime.setInteger(targetTime!,forKey: "timeOfShower")
+//        }
+//        else {
+//            showerTimeField.text = ""
+//        }
     }
     
 

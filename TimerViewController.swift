@@ -14,6 +14,7 @@ class TimerViewController: UIViewController, MZTimerLabelDelegate {
     @IBOutlet weak var timer: MZTimerLabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
+    @IBOutlet weak var gallonsUsed: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,10 +34,12 @@ class TimerViewController: UIViewController, MZTimerLabelDelegate {
     @IBAction func startPauseResumeStopwatch(sender: AnyObject) {
         if timer.counting {
             timer.pause()
+
             startButton.setTitle("Resume", forState: .Normal)
         }
         else if startButton.titleForState(.Normal) == "Reset"{
             timer.reset()
+
             startButton.setTitle("Start", forState: .Normal)
             stopButton.setTitle("Stop", forState: .Normal)
             self.stopButton.enabled = false
@@ -44,6 +47,7 @@ class TimerViewController: UIViewController, MZTimerLabelDelegate {
         }
         else {
             timer.start()
+
             startButton.setTitle("Pause", forState: .Normal)
             self.stopButton.enabled = true
             stopButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
@@ -56,6 +60,7 @@ class TimerViewController: UIViewController, MZTimerLabelDelegate {
             stopButton.setTitle("Save", forState: .Normal)
             startButton.setTitle("Reset", forState: .Normal)
             timer.pause()
+
         }
         else if stopButton.titleForState(.Normal) == "Save"{
             //Add to an array
@@ -67,6 +72,7 @@ class TimerViewController: UIViewController, MZTimerLabelDelegate {
             startButton.setTitle("Start", forState: .Normal)
             stopButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
             timer.reset()
+
         }
         else if stopButton.titleForState(.Normal) == "Stop" && startButton.titleForState(.Normal) == "Resume"{
             startButton.setTitle("Reset", forState: .Normal)
@@ -82,6 +88,7 @@ class TimerViewController: UIViewController, MZTimerLabelDelegate {
     }
     @IBAction func plusFive(sender: AnyObject) {
         timer.addTimeCountedByTime(5)
+
     }
     
     

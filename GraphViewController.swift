@@ -8,14 +8,27 @@
 
 import UIKit
 import Charts
-
+import SwiftyUserDefaults
 class GraphViewController: UIViewController {
     
     @IBOutlet weak var graphView: UIView!
     @IBOutlet weak var infoView: UIView!
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
     
+        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+        let timesArray = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
+        var index = 0
+        var dic : [String:Double] = [:]
+        while index < 6 {
+        dic[months[index]] = timesArray[index]
+        index += 1
+        }
+        setChart(months, values: timesArray)
+
+    }
     @IBAction func indexChanged(sender: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex
         {
@@ -44,8 +57,8 @@ class GraphViewController: UIViewController {
             index += 1
         }
         setChart(months, values: timesArray)
+        
     }
-    
     func setChart(dataPoints: [String], values: [Double]) {
         
         var dataEntries: [ChartDataEntry] = []
@@ -54,9 +67,14 @@ class GraphViewController: UIViewController {
             let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
             dataEntries.append(dataEntry)
         }
-        let hello = NSUserDefaults.standardUserDefaults()
-        let target = hello.integerForKey("timeOfShower")
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let hello = defaults.doubleForKey("goalShower")
+        let ll = ChartLimitLine(limit: Double(hello), label: "Target")
+        lineChartView.rightAxis.removeAllLimitLines()
+        lineChartView.rightAxis.addLimitLine(ll)
 
+        
+        
         let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Shower Time")
         let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
         lineChartView.data = lineChartData
@@ -64,8 +82,8 @@ class GraphViewController: UIViewController {
         lineChartDataSet.colors = [UIColor(red: 30/255, green: 126/255, blue: 240/255, alpha: 1)]
         lineChartView.xAxis.labelPosition = .Bottom
         lineChartView.animate(xAxisDuration: 3.0, yAxisDuration: 3.0)
-        let ll = ChartLimitLine(limit: Double(target), label: "Target")
-        lineChartView.rightAxis.addLimitLine(ll)
+        
+        
     }
 
 }
