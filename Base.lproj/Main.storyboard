@@ -246,9 +246,12 @@
                                     <constraint firstAttribute="width" constant="123" id="oxI-sR-xdF"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="30"/>
-                                <state key="normal" title="-5 sec">
+                                <state key="normal" title="-10 sec">
                                     <color key="titleColor" red="0.16078431372549021" green="0.19607843137254902" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="subtractFive:" destination="tL2-RY-ctF" eventType="touchUpInside" id="xfM-EX-Q7r"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="anZ-ec-nRL">
                                 <rect key="frame" x="334" y="353" width="117" height="62"/>
@@ -257,22 +260,11 @@
                                     <constraint firstAttribute="height" constant="62" id="wfg-GU-8ZV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="30"/>
-                                <state key="normal" title="+5 sec">
+                                <state key="normal" title="+10 sec">
                                     <color key="titleColor" red="0.074509803921568626" green="0.16470588235294117" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeU-Qz-LeT">
-                                <rect key="frame" x="289" y="245" width="162" height="87"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="162" id="bj4-LU-8RP"/>
-                                    <constraint firstAttribute="height" constant="87" id="sZk-xE-6qS"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="40"/>
-                                <state key="normal" title="Stop">
-                                    <color key="titleColor" red="0.0" green="0.39488407841127038" blue="0.90588235294117647" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
                                 <connections>
-                                    <action selector="stopStopwatch:" destination="tL2-RY-ctF" eventType="touchUpInside" id="Keg-4k-x5O"/>
+                                    <action selector="addFive:" destination="tL2-RY-ctF" eventType="touchUpInside" id="OFp-En-epK"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhe-vB-38s">
@@ -299,6 +291,20 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeU-Qz-LeT">
+                                <rect key="frame" x="289" y="245" width="162" height="87"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="162" id="bj4-LU-8RP"/>
+                                    <constraint firstAttribute="height" constant="87" id="sZk-xE-6qS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="40"/>
+                                <state key="normal" title="Stop">
+                                    <color key="titleColor" red="0.0" green="0.39488407841127038" blue="0.90588235294117647" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="stopStopwatch:" destination="tL2-RY-ctF" eventType="touchUpInside" id="Keg-4k-x5O"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.77893699260963389" green="1" blue="0.99535516801384194" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -325,6 +331,8 @@
                     </tabBarItem>
                     <connections>
                         <outlet property="gallonsUsed" destination="qgP-yi-z9x" id="WAL-ek-gjh"/>
+                        <outlet property="minusFive" destination="teB-8C-gqs" id="jgb-Ks-jdO"/>
+                        <outlet property="plusFive" destination="anZ-ec-nRL" id="nVt-kw-BEI"/>
                         <outlet property="startButton" destination="khu-QO-vKf" id="3OM-DY-iAv"/>
                         <outlet property="stopButton" destination="eeU-Qz-LeT" id="s73-A2-dl6"/>
                         <outlet property="timerLabel" destination="nhe-vB-38s" id="drF-5F-J5T"/>

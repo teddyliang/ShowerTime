@@ -79,8 +79,8 @@ class SettingsViewController: UIViewController {
     @IBAction func confirmButton(sender: AnyObject) {
         if let isDouble = Double(showerTimeField.text!){
             let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setDouble(Double(showerTimeField.text!)!, forKey: "goalShower")
-            showerTimeField.text! = String(round(Double(showerTimeField.text!)!*100)/100)
+            defaults.setDouble(round(Double(showerTimeField.text!)!), forKey: "goalShower")
+            showerTimeField.text! = String(round(Double(showerTimeField.text!)!))
         }
         else{
             showerTimeField.text = ""
@@ -96,7 +96,7 @@ class SettingsViewController: UIViewController {
         }
         if let isDouble = Double(amountWaterUsedField.text!){
             let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setDouble(Double(amountWaterUsedField.text!)!, forKey: "waterBillUsed")
+            defaults.setDouble(round(Double(amountWaterUsedField.text!)!), forKey: "waterBillUsed")
             amountWaterUsedField.text! = String(round(Double(amountWaterUsedField.text!)!*100)/100)
         }
         else{
@@ -104,7 +104,7 @@ class SettingsViewController: UIViewController {
         }
         if let isDouble = Double(waterBillField.text!){
             let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setDouble(Double(waterBillField.text!)!, forKey: "waterBillAmount")
+            defaults.setDouble(round(Double(waterBillField.text!)!), forKey: "waterBillAmount")
             waterBillField.text! = String(round(Double(waterBillField.text!)!*100)/100)
         }
         else{

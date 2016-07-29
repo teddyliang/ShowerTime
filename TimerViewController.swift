@@ -7,72 +7,90 @@
 //
 
 import UIKit
-
+import AudioToolbox
+import AVFoundation
 class TimerViewController: UIViewController {
     
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var gallonsUsed: UILabel!
+    @IBOutlet weak var minusFive: UIButton!
+    @IBOutlet weak var plusFive: UIButton!
     var count = 0;
     var timer: NSTimer?
     //var isPaused = true
+    func update(currentTime: CFTimeInterval) {
+        /* Called before each frame is rendered */
+    }
+    var audioPlayer: AVAudioPlayer?
+    
+    func playSound(str:String) {
+        let url = NSBundle.mainBundle().URLForResource(str, withExtension: "mp3")!
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOfURL: url)
+            guard let audioPlayer = audioPlayer else { return }
+            
+            audioPlayer.prepareToPlay()
+            audioPlayer.play()
+        } catch let error as NSError {
+            print(error.description)
+        }
+    }
+
     func counter() {
         count += 1
-        let minutes = UInt8(count/60)
-        let seconds = UInt8(count)
+        var minutes = Int(count/60)
+        var seconds = count - minutes*60
         timerLabel.text = "\(seconds)"
-        if seconds > 9 {
+        if count < 0
+        {
+            timerLabel.text = "00:00"
+            count = 0
+        }
+        else if seconds > 9 && minutes > 9{
             
             timerLabel.text = "\(minutes):\(seconds)"
             
         }
+        else if seconds > 9 && minutes < 9{
+            timerLabel.text = "0\(minutes):\(seconds)"
+        }
+        else if seconds < 9 && minutes > 9{
+            timerLabel.text = "\(minutes):0\(seconds)"
+        }
         else {
             
-            timerLabel.text = "\(minutes):0\(seconds)"
+            timerLabel.text = "0\(minutes):0\(seconds)"
             
         }
         let hi = NSUserDefaults.standardUserDefaults()
         let hello = hi.doubleForKey("showerFlow")
-        gallonsUsed.text = "Gallons Used: \(Double(count)*(hello/60))"
-//        var currentTime = NSDate.timeIntervalSinceReferenceDate()
-//        
-//        //Find the difference between current time and start time.
-//        
-//        var elapsedTime: NSTimeInterval = currentTime - startTime
-//        
-//        //calculate the minutes in elapsed time.
-//        
-//        let minutes = UInt8(elapsedTime / 60.0)
-//        
-//        elapsedTime -= (NSTimeInterval(minutes) * 60)
-//        
-//        //calculate the seconds in elapsed time.
-//        
-//        let seconds = UInt8(elapsedTime)
-//        
-//        elapsedTime -= NSTimeInterval(seconds)
-//        
-//        //find out the fraction of milliseconds to be displayed.
-//        
-//        let fraction = UInt8(elapsedTime * 100)
-//        
-//        //add the leading zero for minutes, seconds and millseconds and store them as string constants
-//        
-//        let strMinutes = String(format: "%02d", minutes)
-//        let strSeconds = String(format: "%02d", seconds)
-//        let strFraction = String(format: "%02d", fraction)
-//        
-//        //concatenate minuets, seconds and milliseconds as assign it to the UILabel
-//        let hi = NSUserDefaults.standardUserDefaults()
-//        let hello = hi.doubleForKey("showerFlow")
-//        timerLabel.text = " \(strMinutes):\(strSeconds)"
-//        let gallonsUpdated = String(round(100*(Double(Int(strMinutes)!*60+Int(strSeconds)!)*(hello/60)))/100)
-//        gallonsUsed.text = "Gallons Used: \(gallonsUpdated)"
-}
+        if count > 0{
+            gallonsUsed.text = "Gallons Used: \(round(100*(Double(count)*(hello/60)))/100)"
+        }
+        else {
+            gallonsUsed.text = "Gallons Used: 0.00"
+        }
+        let hihi = NSUserDefaults.standardUserDefaults()
+        let hellohello = hihi.doubleForKey("goalShower")*60
+        let roundedhellohello = round(hellohello)
+        if count > Int(roundedhellohello)
+        {
+            playSound("alarm")
+        }
+        
+
+        
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        stopButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        minusFive.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        plusFive.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,6 +103,9 @@ class TimerViewController: UIViewController {
 //            // timer wasn't started, let's start it
             timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(counter), userInfo: nil, repeats: true)
             startButton.setTitle("Pause", forState: .Normal)
+            stopButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
+            minusFive.setTitleColor(UIColor.blueColor(), forState: .Normal)
+            plusFive.setTitleColor(UIColor.blueColor(), forState: .Normal)
         }
         if startButton.titleLabel?.text == "Pause"
         {
@@ -98,41 +119,18 @@ class TimerViewController: UIViewController {
         }
         if startButton.titleLabel?.text == "Cancel"
         {
-            timer?.invalidate()
             count = 0
             timerLabel.text = "00:00"
+            gallonsUsed.text = "Gallons Used: 0.00"
+            startButton.setTitle("Start", forState: .Normal)
+            stopButton.setTitle("Stop", forState: .Normal)
+            stopButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
+            minusFive.setTitleColor(UIColor.grayColor(), forState: .Normal)
+            plusFive.setTitleColor(UIColor.grayColor(), forState: .Normal)
         }
-//            startTime = NSDate.timeIntervalSinceReferenceDate()
-//            startButton.setTitle("Pause", forState: .Normal)
-//
-//            //isPaused = false
-//        }
-//        else if startButton.titleLabel?.text == "Cancel" {
-//            // they pressed stop, let's reset the timer
-//            timer = nil
-//            //isPaused = true
-//            startButton.setTitle("Start", forState: .Normal)
-//
-//        }
-//        else if startButton.titleLabel?.text == "Pause" {
-//            // timer is running, let's pause it
-//            
-//            //isPaused = true
-//            startButton.setTitle("Resume", forState: .Normal)
-//
-//            timer?.invalidate()
-//            timer = nil
-//            
-//        }
-//        else if startButton.titleLabel?.text == "Resume" {
-//            // timer is paused, let's start it
-//            //isPaused = false
-//            startButton.setTitle("Pause", forState: .Normal)
-//            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-//
-//        }
     }
     @IBAction func stopStopwatch(sender: AnyObject) {
+        audioPlayer?.stop()
         if stopButton.titleLabel?.text == "Stop"
         {
             timer?.invalidate()
@@ -141,17 +139,86 @@ class TimerViewController: UIViewController {
         }
         else if stopButton.titleLabel?.text == "Save"
         {
+            //Save count to dictionary
+            //Save gallons used to a dictionary
+            startButton.setTitle("Start", forState: .Normal)
+            stopButton.setTitle("Stop", forState: .Normal)
+            count = 0
+            gallonsUsed.text = "Gallons Used: 0.00"
+            timerLabel.text = "00:00"
+            stopButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+            minusFive.setTitleColor(UIColor.grayColor(), forState: .Normal)
+            plusFive.setTitleColor(UIColor.grayColor(), forState: .Normal)
+
             
         }
-//        if startButton.titleLabel?.text == "Pause" || startButton.titleLabel?.text == "Resume"{
-//            timer?.invalidate()
-//            //isPaused = true
-//            startButton.setTitle("Cancel", forState: .Normal)
-//            startButton.setTitle("Save", forState: .Normal)
-//        }
     }
-    
-    
-    
-    
+    @IBAction func subtractFive(sender: AnyObject) {
+        count = count - 10
+        var minutes = Int(count/60)
+        var seconds = count - minutes*60
+        timerLabel.text = "\(seconds)"
+        if count < 0{
+            timerLabel.text = "00:00"
+            count = 0
+        }
+        else if seconds > 9 && minutes > 9{
+            
+            timerLabel.text = "\(minutes):\(seconds)"
+            
+        }
+        else if seconds > 9 && minutes < 9{
+            timerLabel.text = "0\(minutes):\(seconds)"
+        }
+        else if seconds < 9 && minutes > 9{
+            timerLabel.text = "\(minutes):0\(seconds)"
+        }
+        else {
+            
+            timerLabel.text = "0\(minutes):0\(seconds)"
+            
+        }
+        let hi = NSUserDefaults.standardUserDefaults()
+        let hello = hi.doubleForKey("showerFlow")
+        if count > 0{
+            gallonsUsed.text = "Gallons Used: \(round(100*(Double(count)*(hello/60)))/100)"
+        }
+        else {
+            gallonsUsed.text = "Gallons Used: 0.00"
+        }
+    }
+    @IBAction func addFive(sender: AnyObject) {
+            count = count + 10
+            var minutes = Int(count/60)
+            var seconds = count - minutes*60
+            timerLabel.text = "\(seconds)"
+            if count < 0{
+                timerLabel.text = "00:00"
+                count = 0
+            }
+            else if seconds > 9 && minutes > 9{
+                
+                timerLabel.text = "\(minutes):\(seconds)"
+                
+            }
+            else if seconds > 9 && minutes < 9{
+                timerLabel.text = "0\(minutes):\(seconds)"
+            }
+            else if seconds < 9 && minutes > 9{
+                timerLabel.text = "\(minutes):0\(seconds)"
+            }
+            else {
+                
+                timerLabel.text = "0\(minutes):0\(seconds)"
+                
+            }
+            let hi = NSUserDefaults.standardUserDefaults()
+            let hello = hi.doubleForKey("showerFlow")
+            if count > 0{
+                gallonsUsed.text = "Gallons Used: \(round(100*(Double(count)*(hello/60)))/100)"
+            }
+            else {
+                gallonsUsed.text = "Gallons Used: 0.00"
+                }
+            }
 }
