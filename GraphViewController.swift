@@ -13,20 +13,31 @@ class GraphViewController: UIViewController {
     
     @IBOutlet weak var graphView: UIView!
     @IBOutlet weak var infoView: UIView!
-    
+    @IBOutlet weak var waterUsed: UILabel!
+    @IBOutlet weak var moneySpent: UILabel!
+    @IBOutlet weak var averageTime: UILabel!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    
+    var startCountDate: NSDate?
+    var pausedTime: NSDate?
+    
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
     
         let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
         let timesArray = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
         var index = 0
-        var dic : [String:Double] = [:]
+        var dict : [String:Double] = [:]
         while index < 6 {
-        dic[months[index]] = timesArray[index]
+        dict[months[index]] = timesArray[index]
         index += 1
         }
+        let allTimes = Array(dict.values)
+        let size = dict.count
         setChart(months, values: timesArray)
+        totalWater(allTimes, dictSize: size)
 
     }
     @IBAction func indexChanged(sender: UISegmentedControl) {
@@ -43,22 +54,22 @@ class GraphViewController: UIViewController {
         }
     }
     @IBOutlet weak var lineChartView: LineChartView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        
-        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
-        let timesArray = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
-        var index = 0
-        var dic : [String:Double] = [:]
-        while index < 6 {
-            dic[months[index]] = timesArray[index]
-            index += 1
-        }
-        setChart(months, values: timesArray)
-        
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        
+//        // Do any additional setup after loading the view.
+//        
+//        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+//        let timesArray = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
+//        var index = 0
+//        var dic : [String:Double] = [:]
+//        while index < 6 {
+//            dic[months[index]] = timesArray[index]
+//            index += 1
+//        }
+//        setChart(months, values: timesArray)
+//        
+//    }
     func setChart(dataPoints: [String], values: [Double]) {
         
         var dataEntries: [ChartDataEntry] = []
@@ -84,6 +95,33 @@ class GraphViewController: UIViewController {
         lineChartView.animate(xAxisDuration: 3.0, yAxisDuration: 3.0)
         
         
+    }
+    func totalWater(times: [Double], dictSize: Int)
+    {
+        var sum : Double = 0;
+        for index in 0..<dictSize{
+            sum = sum + times[index]
+        }
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let hello = defaults.doubleForKey("showerFlow")
+        waterUsed.text = String(sum*hello)
+        let checking = NSUserDefaults.standardUserDefaults()
+        let another = checking.doubleForKey("roundedPrice")
+        moneySpent.text = String(sum*hello*another)
+        let roundedAverage = round(100*sum/Double(dictSize))/100
+        averageTime.text = String(roundedAverage)
+    }
+    func getTimeCounted() -> NSTimeInterval {
+        
+        if (startCountDate == nil) {
+            return 0
+        }
+        var countedTime: NSTimeInterval = NSDate().timeIntervalSinceDate(startCountDate!)
+        if pausedTime != nil {
+            let pauseCountedTime: NSTimeInterval = NSDate().timeIntervalSinceDate(pausedTime!)
+            countedTime -= pauseCountedTime
+        }
+        return countedTime
     }
 
 }

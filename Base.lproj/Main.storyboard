@@ -55,6 +55,10 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="710-5g-EKT">
                                         <rect key="frame" x="426" y="63" width="147" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="147" id="fXU-W9-mBp"/>
+                                            <constraint firstAttribute="height" constant="22" id="k4J-Wj-wMR"/>
+                                        </constraints>
                                         <attributedString key="attributedText">
                                             <fragment content="998">
                                                 <attributes>
@@ -196,10 +200,13 @@
                         <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="averageTime" destination="Oa8-pF-aIt" id="X1w-HU-6gg"/>
                         <outlet property="graphView" destination="77i-se-hqh" id="qV4-hE-egt"/>
                         <outlet property="infoView" destination="yjg-PA-RC5" id="SYE-ih-nj4"/>
                         <outlet property="lineChartView" destination="77i-se-hqh" id="QTz-3v-M9D"/>
+                        <outlet property="moneySpent" destination="710-5g-EKT" id="OvI-bI-QYe"/>
                         <outlet property="segmentedControl" destination="XV8-Ae-z0Y" id="8CM-jz-Riz"/>
+                        <outlet property="waterUsed" destination="JyW-R9-2cz" id="O4e-1S-L3u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DTU-b9-JpQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -242,9 +249,6 @@
                                 <state key="normal" title="-5 sec">
                                     <color key="titleColor" red="0.16078431372549021" green="0.19607843137254902" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="minusFive:" destination="tL2-RY-ctF" eventType="touchUpInside" id="Fw6-Ph-Nj8"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="anZ-ec-nRL">
                                 <rect key="frame" x="334" y="353" width="117" height="62"/>
@@ -256,9 +260,6 @@
                                 <state key="normal" title="+5 sec">
                                     <color key="titleColor" red="0.074509803921568626" green="0.16470588235294117" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="plusFive:" destination="tL2-RY-ctF" eventType="touchUpInside" id="q3F-80-HOL"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeU-Qz-LeT">
                                 <rect key="frame" x="289" y="245" width="162" height="87"/>
@@ -274,7 +275,7 @@
                                     <action selector="stopStopwatch:" destination="tL2-RY-ctF" eventType="touchUpInside" id="Keg-4k-x5O"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhe-vB-38s" customClass="MZTimerLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhe-vB-38s">
                                 <rect key="frame" x="54" y="57" width="492" height="156"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="492" id="aen-V6-wEU"/>
@@ -284,13 +285,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgP-yi-z9x">
-                                <rect key="frame" x="191" y="441" width="219" height="60"/>
+                                <rect key="frame" x="149" y="441" width="303" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="QyV-fQ-b2Z"/>
-                                    <constraint firstAttribute="width" constant="219" id="SHy-II-3Kr"/>
+                                    <constraint firstAttribute="width" constant="303" id="UaM-L6-tqW"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="Amount">
+                                    <fragment content="Gallons Used: 0.0">
                                         <attributes>
                                             <font key="NSFont" size="30" name="Avenir-Light"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
@@ -305,7 +305,6 @@
                             <constraint firstItem="anZ-ec-nRL" firstAttribute="top" secondItem="eeU-Qz-LeT" secondAttribute="bottom" constant="21" id="1q2-B3-bPD"/>
                             <constraint firstItem="khu-QO-vKf" firstAttribute="top" secondItem="nhe-vB-38s" secondAttribute="bottom" constant="32" id="5xl-cs-w8n"/>
                             <constraint firstItem="teB-8C-gqs" firstAttribute="top" secondItem="khu-QO-vKf" secondAttribute="bottom" constant="21" id="70B-Jc-0Ud"/>
-                            <constraint firstItem="qgP-yi-z9x" firstAttribute="centerX" secondItem="nhe-vB-38s" secondAttribute="centerX" id="BU2-i1-coq"/>
                             <constraint firstItem="anZ-ec-nRL" firstAttribute="top" secondItem="eeU-Qz-LeT" secondAttribute="bottom" constant="21" id="DFo-P6-MbU"/>
                             <constraint firstItem="eeU-Qz-LeT" firstAttribute="top" secondItem="nhe-vB-38s" secondAttribute="bottom" constant="32" id="EE9-OJ-Y1r"/>
                             <constraint firstItem="teB-8C-gqs" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" constant="-92" id="GXA-zw-OrF"/>
@@ -313,11 +312,12 @@
                             <constraint firstItem="anZ-ec-nRL" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" constant="92" id="MC6-9E-Bva"/>
                             <constraint firstItem="nhe-vB-38s" firstAttribute="top" secondItem="4vy-OP-6q3" secondAttribute="bottom" constant="37" id="QI9-J0-PGr"/>
                             <constraint firstItem="nhe-vB-38s" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" id="Wt8-ii-Xyo"/>
-                            <constraint firstItem="F6d-L0-reV" firstAttribute="top" secondItem="qgP-yi-z9x" secondAttribute="bottom" constant="50" id="efa-cJ-oS8"/>
                             <constraint firstItem="khu-QO-vKf" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" constant="-70" id="fII-Gp-HwZ"/>
                             <constraint firstItem="eeU-Qz-LeT" firstAttribute="centerX" secondItem="1E5-XP-Q6L" secondAttribute="centerX" constant="70" id="hgi-Gk-HjP"/>
-                            <constraint firstItem="qgP-yi-z9x" firstAttribute="top" secondItem="anZ-ec-nRL" secondAttribute="bottom" constant="26" id="kQG-Cg-acA"/>
+                            <constraint firstItem="qgP-yi-z9x" firstAttribute="centerX" secondItem="nhe-vB-38s" secondAttribute="centerX" id="k8O-7N-kfs"/>
                             <constraint firstItem="eeU-Qz-LeT" firstAttribute="top" secondItem="nhe-vB-38s" secondAttribute="bottom" constant="32" id="p6f-CW-Um5"/>
+                            <constraint firstItem="F6d-L0-reV" firstAttribute="top" secondItem="qgP-yi-z9x" secondAttribute="bottom" constant="50" id="vOf-GM-NJ3"/>
+                            <constraint firstItem="qgP-yi-z9x" firstAttribute="top" secondItem="anZ-ec-nRL" secondAttribute="bottom" constant="26" id="yGr-Tx-bAJ"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="Timer" id="xze-n5-6av">
@@ -327,7 +327,7 @@
                         <outlet property="gallonsUsed" destination="qgP-yi-z9x" id="WAL-ek-gjh"/>
                         <outlet property="startButton" destination="khu-QO-vKf" id="3OM-DY-iAv"/>
                         <outlet property="stopButton" destination="eeU-Qz-LeT" id="s73-A2-dl6"/>
-                        <outlet property="timer" destination="nhe-vB-38s" id="vgZ-A4-eq3"/>
+                        <outlet property="timerLabel" destination="nhe-vB-38s" id="drF-5F-J5T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qju-k7-Vex" userLabel="First Responder" sceneMemberID="firstResponder"/>

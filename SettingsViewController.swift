@@ -21,6 +21,18 @@ class SettingsViewController: UIViewController {
         let hi = NSUserDefaults.standardUserDefaults()
         let hello = hi.doubleForKey("goalShower")
         showerTimeField.text = String(hello)
+        let hihi = NSUserDefaults.standardUserDefaults()
+        let hellohello = hihi.doubleForKey("showerFlow")
+        showerFlowRateField.text = String(hellohello)
+        let hihihi = NSUserDefaults.standardUserDefaults()
+        let hellohellohello = hihihi.doubleForKey("roundedPrice")
+        priceGallonLabel.text = String(hellohellohello)
+        let hihihihi = NSUserDefaults.standardUserDefaults()
+        let hellohellohellohello = hihihihi.doubleForKey("waterBillUsed")
+        amountWaterUsedField.text = String(hellohellohellohello)
+        let hihihihihi = NSUserDefaults.standardUserDefaults()
+        let hellohellohellohellohello = hihihihihi.doubleForKey("waterBillAmount")
+        waterBillField.text = String(hellohellohellohellohello)
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -56,6 +68,8 @@ class SettingsViewController: UIViewController {
         let roundedWaterBill = round(100*waterBill)/100
         let roundedPriceGallon = round(100*(roundedWaterBill/roundedAmountWaterUsed))/100
         priceGallonLabel.text = "\(roundedPriceGallon)"
+        let checking = NSUserDefaults.standardUserDefaults()
+        checking.setDouble(roundedPriceGallon, forKey: "roundedPrice")
 
     }
     
@@ -66,12 +80,36 @@ class SettingsViewController: UIViewController {
         if let isDouble = Double(showerTimeField.text!){
             let defaults = NSUserDefaults.standardUserDefaults()
             defaults.setDouble(Double(showerTimeField.text!)!, forKey: "goalShower")
-            showerTimeField.text! = showerTimeField.text!
+            showerTimeField.text! = String(round(Double(showerTimeField.text!)!*100)/100)
         }
         else{
             showerTimeField.text = ""
         }
-        
+        if let isDouble = Double(showerFlowRateField.text!){
+            let check = NSUserDefaults.standardUserDefaults()
+            let roundedFlowRate = round(100*Double(showerFlowRateField.text!)!)/100
+            check.setDouble(roundedFlowRate,forKey: "showerFlow")
+            showerFlowRateField.text! = String(roundedFlowRate)
+        }
+        else{
+            showerFlowRateField.text = ""
+        }
+        if let isDouble = Double(amountWaterUsedField.text!){
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setDouble(Double(amountWaterUsedField.text!)!, forKey: "waterBillUsed")
+            amountWaterUsedField.text! = String(round(Double(amountWaterUsedField.text!)!*100)/100)
+        }
+        else{
+            amountWaterUsedField.text = ""
+        }
+        if let isDouble = Double(waterBillField.text!){
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setDouble(Double(waterBillField.text!)!, forKey: "waterBillAmount")
+            waterBillField.text! = String(round(Double(waterBillField.text!)!*100)/100)
+        }
+        else{
+            waterBillField.text = ""
+        }
 //        if let isDouble = Double(showerTimeField.text!){
 //        let targetTime = Int(showerTimeField.text!)
 //        let goalShowerTime = NSUserDefaults.standardUserDefaults()

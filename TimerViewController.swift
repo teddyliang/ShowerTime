@@ -7,23 +7,72 @@
 //
 
 import UIKit
-import MZTimerLabel
 
-class TimerViewController: UIViewController, MZTimerLabelDelegate {
+class TimerViewController: UIViewController {
     
-    @IBOutlet weak var timer: MZTimerLabel!
+    @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var gallonsUsed: UILabel!
+    var count = 0;
+    var timer: NSTimer?
+    //var isPaused = true
+    func counter() {
+        count += 1
+        let minutes = UInt8(count/60)
+        let seconds = UInt8(count)
+        timerLabel.text = "\(seconds)"
+        if seconds > 9 {
+            
+            timerLabel.text = "\(minutes):\(seconds)"
+            
+        }
+        else {
+            
+            timerLabel.text = "\(minutes):0\(seconds)"
+            
+        }
+        let hi = NSUserDefaults.standardUserDefaults()
+        let hello = hi.doubleForKey("showerFlow")
+        gallonsUsed.text = "Gallons Used: \(Double(count)*(hello/60))"
+//        var currentTime = NSDate.timeIntervalSinceReferenceDate()
+//        
+//        //Find the difference between current time and start time.
+//        
+//        var elapsedTime: NSTimeInterval = currentTime - startTime
+//        
+//        //calculate the minutes in elapsed time.
+//        
+//        let minutes = UInt8(elapsedTime / 60.0)
+//        
+//        elapsedTime -= (NSTimeInterval(minutes) * 60)
+//        
+//        //calculate the seconds in elapsed time.
+//        
+//        let seconds = UInt8(elapsedTime)
+//        
+//        elapsedTime -= NSTimeInterval(seconds)
+//        
+//        //find out the fraction of milliseconds to be displayed.
+//        
+//        let fraction = UInt8(elapsedTime * 100)
+//        
+//        //add the leading zero for minutes, seconds and millseconds and store them as string constants
+//        
+//        let strMinutes = String(format: "%02d", minutes)
+//        let strSeconds = String(format: "%02d", seconds)
+//        let strFraction = String(format: "%02d", fraction)
+//        
+//        //concatenate minuets, seconds and milliseconds as assign it to the UILabel
+//        let hi = NSUserDefaults.standardUserDefaults()
+//        let hello = hi.doubleForKey("showerFlow")
+//        timerLabel.text = " \(strMinutes):\(strSeconds)"
+//        let gallonsUpdated = String(round(100*(Double(Int(strMinutes)!*60+Int(strSeconds)!)*(hello/60)))/100)
+//        gallonsUsed.text = "Gallons Used: \(gallonsUpdated)"
+}
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let timer_ = MZTimerLabel(label: timer, andTimerType:MZTimerLabelTypeStopWatch)
-        timer_.timeFormat = "mm:ss"
-        self.stopButton.enabled = false
-        stopButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
-        timer.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func didReceiveMemoryWarning() {
@@ -32,63 +81,74 @@ class TimerViewController: UIViewController, MZTimerLabelDelegate {
     }
     
     @IBAction func startPauseResumeStopwatch(sender: AnyObject) {
-        if timer.counting {
-            timer.pause()
-
+        if startButton.titleLabel?.text == "Start" {
+//            // timer wasn't started, let's start it
+            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(counter), userInfo: nil, repeats: true)
+            startButton.setTitle("Pause", forState: .Normal)
+        }
+        if startButton.titleLabel?.text == "Pause"
+        {
+            timer?.invalidate()
             startButton.setTitle("Resume", forState: .Normal)
         }
-        else if startButton.titleForState(.Normal) == "Reset"{
-            timer.reset()
-
-            startButton.setTitle("Start", forState: .Normal)
-            stopButton.setTitle("Stop", forState: .Normal)
-            self.stopButton.enabled = false
-            stopButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
-        }
-        else {
-            timer.start()
-
+        if startButton.titleLabel?.text == "Resume"
+        {
             startButton.setTitle("Pause", forState: .Normal)
-            self.stopButton.enabled = true
-            stopButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
-            
+            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(counter), userInfo: nil, repeats: true)
         }
+        if startButton.titleLabel?.text == "Cancel"
+        {
+            timer?.invalidate()
+            count = 0
+            timerLabel.text = "00:00"
+        }
+//            startTime = NSDate.timeIntervalSinceReferenceDate()
+//            startButton.setTitle("Pause", forState: .Normal)
+//
+//            //isPaused = false
+//        }
+//        else if startButton.titleLabel?.text == "Cancel" {
+//            // they pressed stop, let's reset the timer
+//            timer = nil
+//            //isPaused = true
+//            startButton.setTitle("Start", forState: .Normal)
+//
+//        }
+//        else if startButton.titleLabel?.text == "Pause" {
+//            // timer is running, let's pause it
+//            
+//            //isPaused = true
+//            startButton.setTitle("Resume", forState: .Normal)
+//
+//            timer?.invalidate()
+//            timer = nil
+//            
+//        }
+//        else if startButton.titleLabel?.text == "Resume" {
+//            // timer is paused, let's start it
+//            //isPaused = false
+//            startButton.setTitle("Pause", forState: .Normal)
+//            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+//
+//        }
     }
     @IBAction func stopStopwatch(sender: AnyObject) {
-        
-        if timer.counting {
-            stopButton.setTitle("Save", forState: .Normal)
-            startButton.setTitle("Reset", forState: .Normal)
-            timer.pause()
-
-        }
-        else if stopButton.titleForState(.Normal) == "Save"{
-            //Add to an array
-            func timerLabel(timerLabel: MZTimerLabel, finshedCountDownTimerWithTime countTime: NSTimeInterval) {
-                
-                
-            }
-            stopButton.setTitle("Stop", forState: .Normal)
-            startButton.setTitle("Start", forState: .Normal)
-            stopButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
-            timer.reset()
-
-        }
-        else if stopButton.titleForState(.Normal) == "Stop" && startButton.titleForState(.Normal) == "Resume"{
-            startButton.setTitle("Reset", forState: .Normal)
-            stopButton.setTitle("Save", forState: .Normal)
-        }
-        else
+        if stopButton.titleLabel?.text == "Stop"
         {
-            stopButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+            timer?.invalidate()
+            startButton.setTitle("Cancel", forState: .Normal)
+            stopButton.setTitle("Save", forState: .Normal)
         }
-    }
-    @IBAction func minusFive(sender: AnyObject) {
-        timer.addTimeCountedByTime(-5)
-    }
-    @IBAction func plusFive(sender: AnyObject) {
-        timer.addTimeCountedByTime(5)
-
+        else if stopButton.titleLabel?.text == "Save"
+        {
+            
+        }
+//        if startButton.titleLabel?.text == "Pause" || startButton.titleLabel?.text == "Resume"{
+//            timer?.invalidate()
+//            //isPaused = true
+//            startButton.setTitle("Cancel", forState: .Normal)
+//            startButton.setTitle("Save", forState: .Normal)
+//        }
     }
     
     
