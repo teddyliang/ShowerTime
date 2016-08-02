@@ -25,19 +25,15 @@ class GraphViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-    
+        let dictBack = NSUserDefaults.standardUserDefaults()
+        let  timesDictionary = dictBack.objectForKey("TimeDictionary")
+        let arrayBack = NSUserDefaults.standardUserDefaults()
+//        let timesArray = arrayBack.objectForKey("TimeArray") as! [Double]
         let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
         let timesArray = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
-        var index = 0
-        var dict : [String:Double] = [:]
-        while index < 6 {
-        dict[months[index]] = timesArray[index]
-        index += 1
-        }
-        let allTimes = Array(dict.values)
-        let size = dict.count
+
         setChart(months, values: timesArray)
-        totalWater(allTimes, dictSize: size)
+//        totalWater(timesArray, dictSize: size)
 
     }
     @IBAction func indexChanged(sender: UISegmentedControl) {
@@ -50,7 +46,28 @@ class GraphViewController: UIViewController {
             infoView.hidden = false
             graphView.hidden = true
         default:
-            break; 
+            break
+        }
+    }
+    @IBAction func timeIndex(sender: UISegmentedControl) {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            let today = NSDate()
+            let dictBack = NSUserDefaults.standardUserDefaults()
+            let  timesDictionary = dictBack.objectForKey("TimeDictionary")
+            
+        case 1:
+            let size = 15
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setInteger(size, forKey: "size2")
+
+        case 2:
+            let size = 24
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setInteger(size, forKey: "size3")
+
+        default:
+            break
         }
     }
     @IBOutlet weak var lineChartView: LineChartView!
@@ -111,17 +128,17 @@ class GraphViewController: UIViewController {
         let roundedAverage = round(100*sum/Double(dictSize))/100
         averageTime.text = String(roundedAverage)
     }
-    func getTimeCounted() -> NSTimeInterval {
-        
-        if (startCountDate == nil) {
-            return 0
-        }
-        var countedTime: NSTimeInterval = NSDate().timeIntervalSinceDate(startCountDate!)
-        if pausedTime != nil {
-            let pauseCountedTime: NSTimeInterval = NSDate().timeIntervalSinceDate(pausedTime!)
-            countedTime -= pauseCountedTime
-        }
-        return countedTime
-    }
+//    func getTimeCounted() -> NSTimeInterval {
+//        
+//        if (startCountDate == nil) {
+//            return 0
+//        }
+//        var countedTime: NSTimeInterval = NSDate().timeIntervalSinceDate(startCountDate!)
+//        if pausedTime != nil {
+//            let pauseCountedTime: NSTimeInterval = NSDate().timeIntervalSinceDate(pausedTime!)
+//            countedTime -= pauseCountedTime
+//        }
+//        return countedTime
+//    }
 
 }

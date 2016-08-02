@@ -51,7 +51,7 @@ class SettingsViewController: UIViewController {
         }
         let roundedAmountWaterUsed1 = round(100*amountWaterUsed1)/100
         let roundedWaterBill1 = round(100*waterBill1)/100
-        let roundedPriceGallon1 = round(100*(roundedWaterBill1/roundedAmountWaterUsed1))/100
+        var roundedPriceGallon1 = round(100*(roundedWaterBill1/roundedAmountWaterUsed1))/100
         priceGallonLabel.text = "\(roundedPriceGallon1)"
         
     }
@@ -66,7 +66,7 @@ class SettingsViewController: UIViewController {
         }
         let roundedAmountWaterUsed = round(100*amountWaterUsed)/100
         let roundedWaterBill = round(100*waterBill)/100
-        let roundedPriceGallon = round(100*(roundedWaterBill/roundedAmountWaterUsed))/100
+        let roundedPriceGallon = round(1000*(roundedWaterBill/roundedAmountWaterUsed))/1000
         priceGallonLabel.text = "\(roundedPriceGallon)"
         let checking = NSUserDefaults.standardUserDefaults()
         checking.setDouble(roundedPriceGallon, forKey: "roundedPrice")

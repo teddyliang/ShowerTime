@@ -142,7 +142,7 @@
                             </view>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WXY-Cr-p5o">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <color key="barTintColor" red="0.36113789827937809" green="0.70816778376624123" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.23529411764705882" green="0.55686274509803924" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
                                     <navigationItem title="Stats" id="ofu-zr-sCg"/>
                                 </items>
@@ -155,6 +155,9 @@
                                     <segment title="Year"/>
                                 </segments>
                                 <color key="tintColor" red="0.29019607843137257" green="0.63921568627450975" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="timeIndex:" destination="QOk-6o-OQm" eventType="valueChanged" id="nq2-g6-u90"/>
+                                </connections>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="XV8-Ae-z0Y">
                                 <rect key="frame" x="160" y="110" width="281" height="29"/>
@@ -375,7 +378,7 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNW-qQ-RWn">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <color key="barTintColor" red="0.38552866937716568" green="0.72771671028031992" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.27456913392988513" green="0.5967410870502412" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
                                     <navigationItem title="Settings" id="E4p-Sn-IC7" userLabel="Settings"/>
                                 </items>
