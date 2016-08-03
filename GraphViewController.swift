@@ -22,6 +22,7 @@ class GraphViewController: UIViewController {
     var startCountDate: NSDate?
     var pausedTime: NSDate?
     var weekDict : [String:Double] = [:]
+    var monthDict : [String:Double] = [:]
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -114,14 +115,141 @@ class GraphViewController: UIViewController {
             totalWater(actualTimes, dictSize: 7)
 
         case 1:
-            let size = 15
+            let today = NSDate()
+            let calendar = NSCalendar.currentCalendar()
+            let components = calendar.components([.Day , .Month , .Year], fromDate: today)
+            let day = components.day
+            var check = 0
+            let dictBack = NSUserDefaults.standardUserDefaults()
+            let  timesDictionary = dictBack.objectForKey("TimeDictionary") as? [String: Double] ?? [String: Double]()
+            var currentDate: NSDate = NSDate()
+            for index in 0..<day {
+                var dateComponents: NSDateComponents = NSDateComponents()
+                dateComponents.day = -(day-1)+index
+                var inTheMonth: NSDate = NSCalendar.currentCalendar().dateByAddingComponents(dateComponents, toDate: currentDate, options: [])!
+                for dates in timesDictionary.keys
+                {
+                    let string = dates
+                    var df: NSDateFormatter = NSDateFormatter()
+                    df.dateFormat = "yyyy-MM-dd HH:mm:ss a "
+                    var myDate: NSDate = df.dateFromString(string)!
+                    var beforeDate = myDate
+                    let beforeCalendar = NSCalendar.currentCalendar()
+                    let beforeComponents = beforeCalendar.components([.Day , .Month , .Year], fromDate: beforeDate)
+                    let beforeYear =  beforeComponents.year
+                    let beforeMonth = beforeComponents.month
+                    let beforeDay = beforeComponents.day
+                    
+                    let calendar = NSCalendar.currentCalendar()
+                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheMonth)
+                    
+                    let year =  components.year
+                    let month = components.month
+                    let day = components.day
+                    if year == beforeYear && month == beforeMonth
+                    {
+                        check = 1
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZZ"
+                        //dateFormatter.timeZone = NSTimeZone()
+                        let stringDate = dateFormatter.stringFromDate(inThe)
+                        let displayDay = "\(String(month))/\(String(day))"
+                        MonthDict[displayDay] = timesDictionary[stringDate]
+                        
+                    }
+                }
+                if check == 0{
+                    let calendar = NSCalendar.currentCalendar()
+                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheWeek)
+                    
+                    let year =  components.year
+                    let month = components.month
+                    let day = components.day
+                    let displayDay = "\(String(month))/\(String(day))"
+                    MonthDict[displayDay] = 0
+                    
+                }
+            }
             let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setInteger(size, forKey: "size2")
-
+            defaults.setObject(weekDict, forKey: "WeekArray")
+            let duration = Array(weekDict.values)
+            let realDay = Array(weekDict.keys)
+            setChart(realDay, values: duration)
+            let arrayBack = NSUserDefaults.standardUserDefaults()
+            let timesArray = arrayBack.objectForKey("TimeArray")
+            var actualTimes: [Double] = []
+            for index in 0..<31{
+                actualTimes[index] = timesArray![(timesArray?.count)!-day+index]
+            }
+            totalWater(actualTimes, dictSize: actualTimes.count)
+            
         case 2:
-            let size = 24
+            let today = NSDate()
+            let cal = NSCalendar.currentCalendar()
+            let day = cal.ordinalityOfUnit(.Day, inUnit: .Year, forDate: today)
+            var check = 0
+            let dictBack = NSUserDefaults.standardUserDefaults()
+            let  timesDictionary = dictBack.objectForKey("TimeDictionary") as? [String: Double] ?? [String: Double]()
+            var currentDate: NSDate = NSDate()
+            for index in 0..<day {
+                var dateComponents: NSDateComponents = NSDateComponents()
+                dateComponents.day = -(day-1)+index
+                var inTheYear: NSDate = NSCalendar.currentCalendar().dateByAddingComponents(dateComponents, toDate: currentDate, options: [])!
+                for dates in timesDictionary.keys
+                {
+                    let string = dates
+                    var df: NSDateFormatter = NSDateFormatter()
+                    df.dateFormat = "yyyy-MM-dd HH:mm:ss a "
+                    var myDate: NSDate = df.dateFromString(string)!
+                    var beforeDate = myDate
+                    let beforeCalendar = NSCalendar.currentCalendar()
+                    let beforeComponents = beforeCalendar.components([.Day , .Month , .Year], fromDate: beforeDate)
+                    let beforeYear =  beforeComponents.year
+                    let beforeMonth = beforeComponents.month
+                    let beforeDay = beforeComponents.day
+                    
+                    let calendar = NSCalendar.currentCalendar()
+                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheMonth)
+                    
+                    let year =  components.year
+                    let month = components.month
+                    let day = components.day
+                    if year == beforeYear
+                    {
+                        check = 1
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZZ"
+                        //dateFormatter.timeZone = NSTimeZone()
+                        let stringDate = dateFormatter.stringFromDate(inTheYear)
+                        let displayDay = "\(String(month))/\(String(day))"
+                        MonthDict[displayDay] = timesDictionary[stringDate]
+                        
+                    }
+                }
+                if check == 0{
+                    let calendar = NSCalendar.currentCalendar()
+                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheWeek)
+                    
+                    let year =  components.year
+                    let month = components.month
+                    let day = components.day
+                    let displayDay = "\(String(month))/\(String(day))"
+                    MonthDict[displayDay] = 0
+                    
+                }
+            }
             let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setInteger(size, forKey: "size3")
+            defaults.setObject(weekDict, forKey: "WeekArray")
+            let duration = Array(weekDict.values)
+            let realDay = Array(weekDict.keys)
+            setChart(realDay, values: duration)
+            let arrayBack = NSUserDefaults.standardUserDefaults()
+            let timesArray = arrayBack.objectForKey("TimeArray")
+            var actualTimes: [Double] = []
+            for index in 0..<7{
+                actualTimes[index] = timesArray![(timesArray?.count)!-6+index]
+            }
+            totalWater(actualTimes, dictSize: actualTimes.count)
 
         default:
             break
