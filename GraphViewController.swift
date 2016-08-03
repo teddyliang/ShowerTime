@@ -21,19 +21,15 @@ class GraphViewController: UIViewController {
     
     var startCountDate: NSDate?
     var pausedTime: NSDate?
-    
+    var weekDict : [String:Double] = [:]
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         let dictBack = NSUserDefaults.standardUserDefaults()
         let  timesDictionary = dictBack.objectForKey("TimeDictionary")
-        let arrayBack = NSUserDefaults.standardUserDefaults()
-//        let timesArray = arrayBack.objectForKey("TimeArray") as! [Double]
-        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
-        let timesArray = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
 
-        setChart(months, values: timesArray)
-//        totalWater(timesArray, dictSize: size)
+ //       setChart(months, values: timesArray)
+        totalWater(timesArray, dictSize: timesArray.count)
 
     }
     @IBAction func indexChanged(sender: UISegmentedControl) {
@@ -53,9 +49,70 @@ class GraphViewController: UIViewController {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             let today = NSDate()
+            var check = 0
             let dictBack = NSUserDefaults.standardUserDefaults()
-            let  timesDictionary = dictBack.objectForKey("TimeDictionary")
-            
+            let  timesDictionary = dictBack.objectForKey("TimeDictionary") as? [String: Double] ?? [String: Double]()
+            var currentDate: NSDate = NSDate()
+            for index in 0..<7 {
+                var dateComponents: NSDateComponents = NSDateComponents()
+                dateComponents.day = -6+index
+                var inTheWeek: NSDate = NSCalendar.currentCalendar().dateByAddingComponents(dateComponents, toDate: currentDate, options: [])!
+                for dates in timesDictionary.keys
+                {
+                    let string = dates
+                    var df: NSDateFormatter = NSDateFormatter()
+                    df.dateFormat = "yyyy-MM-dd HH:mm:ss a "
+                    var myDate: NSDate = df.dateFromString(string)!
+                    var beforeDate = myDate
+                    let beforeCalendar = NSCalendar.currentCalendar()
+                    let beforeComponents = beforeCalendar.components([.Day , .Month , .Year], fromDate: beforeDate)
+                    let beforeYear =  beforeComponents.year
+                    let beforeMonth = beforeComponents.month
+                    let beforeDay = beforeComponents.day
+                    
+                    let calendar = NSCalendar.currentCalendar()
+                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheWeek)
+                    
+                    let year =  components.year
+                    let month = components.month
+                    let day = components.day
+                    if year == beforeYear && month == beforeMonth && day == beforeDay
+                    {
+                        check = 1
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZZ"
+                        //dateFormatter.timeZone = NSTimeZone()
+                        let stringDate = dateFormatter.stringFromDate(inTheWeek)
+                        let displayDay = "\(String(month))/\(String(day))"
+                        weekDict[displayDay] = timesDictionary[stringDate]
+
+                    }
+                }
+                if check == 0{
+                    let calendar = NSCalendar.currentCalendar()
+                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheWeek)
+                    
+                    let year =  components.year
+                    let month = components.month
+                    let day = components.day
+                    let displayDay = "\(String(month))/\(String(day))"
+                    weekDict[displayDay] = 0
+
+                }
+            }
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setObject(weekDict, forKey: "WeekArray")
+            let duration = Array(weekDict.values)
+            let day = Array(weekDict.keys)
+            setChart(day, values: duration)
+            let arrayBack = NSUserDefaults.standardUserDefaults()
+            let timesArray = arrayBack.objectForKey("TimeArray")
+            var actualTimes: [Double] = []
+            for index in 0..<7{
+                actualTimes[index] = timesArray![(timesArray?.count)!-6+index]
+            }
+            totalWater(actualTimes, dictSize: 7)
+
         case 1:
             let size = 15
             let defaults = NSUserDefaults.standardUserDefaults()
@@ -71,22 +128,6 @@ class GraphViewController: UIViewController {
         }
     }
     @IBOutlet weak var lineChartView: LineChartView!
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        // Do any additional setup after loading the view.
-//        
-//        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
-//        let timesArray = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
-//        var index = 0
-//        var dic : [String:Double] = [:]
-//        while index < 6 {
-//            dic[months[index]] = timesArray[index]
-//            index += 1
-//        }
-//        setChart(months, values: timesArray)
-//        
-//    }
     func setChart(dataPoints: [String], values: [Double]) {
         
         var dataEntries: [ChartDataEntry] = []
@@ -100,9 +141,6 @@ class GraphViewController: UIViewController {
         let ll = ChartLimitLine(limit: Double(hello), label: "Target")
         lineChartView.rightAxis.removeAllLimitLines()
         lineChartView.rightAxis.addLimitLine(ll)
-
-        
-        
         let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Shower Time")
         let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
         lineChartView.data = lineChartData
