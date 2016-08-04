@@ -1,0 +1,23 @@
+PODS:
+  - Charts (2.2.5):
+    - Charts/Core (= 2.2.5)
+  - Charts/Core (2.2.5)
+  - MZTimerLabel (0.5.4)
+  - SwiftyTimer (1.4.0)
+  - SwiftyUserDefaults (2.2.0)
+
+DEPENDENCIES:
+  - Charts
+  - MZTimerLabel
+  - SwiftyTimer
+  - SwiftyUserDefaults
+
+SPEC CHECKSUMS:
+  Charts: b48fcc8d7190de910ff9e9748f5360c8ea7856e5
+  MZTimerLabel: cd9bfb9304540ef2a9e163384fca9c978f0dbf83
+  SwiftyTimer: db4458cfaf67fc71e16ad6e4637c60b86f76a649
+  SwiftyUserDefaults: e7c8197a9d4068702e7f2406a968cae413b8de27
+
+PODFILE CHECKSUM: 3854323c86c1fe269e8949af2f3b02adbb8891e0
+
+COCOAPODS: 1.0.1

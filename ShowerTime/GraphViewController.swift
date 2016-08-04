@@ -23,14 +23,15 @@ class GraphViewController: UIViewController {
     var pausedTime: NSDate?
     var weekDict : [String:Double] = [:]
     var monthDict : [String:Double] = [:]
+    var yearDict : [String:Double] = [:]
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let dictBack = NSUserDefaults.standardUserDefaults()
-        let  timesDictionary = dictBack.objectForKey("TimeDictionary")
+//        let dictBack = NSUserDefaults.standardUserDefaults()
+//        let  timesDictionary = dictBack.objectForKey("TimeDictionary")
 
  //       setChart(months, values: timesArray)
-        totalWater(timesArray, dictSize: timesArray.count)
+//        totalWater(timesArray, dictSize: timesArray.count)
 
     }
     @IBAction func indexChanged(sender: UISegmentedControl) {
@@ -108,11 +109,11 @@ class GraphViewController: UIViewController {
             setChart(day, values: duration)
             let arrayBack = NSUserDefaults.standardUserDefaults()
             let timesArray = arrayBack.objectForKey("TimeArray")
-            var actualTimes: [Double] = []
-            for index in 0..<7{
-                actualTimes[index] = timesArray![(timesArray?.count)!-6+index]
-            }
-            totalWater(actualTimes, dictSize: 7)
+//            var actualTimes: [Double] = []
+//            for index in 0..<7{
+//                actualTimes[index] = timesArray![(timesArray?.count)!-6+index]
+//            }
+//            totalWater(actualTimes, dictSize: 7)
 
         case 1:
             let today = NSDate()
@@ -152,36 +153,34 @@ class GraphViewController: UIViewController {
                         let dateFormatter = NSDateFormatter()
                         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZZ"
                         //dateFormatter.timeZone = NSTimeZone()
-                        let stringDate = dateFormatter.stringFromDate(inThe)
-                        let displayDay = "\(String(month))/\(String(day))"
-                        MonthDict[displayDay] = timesDictionary[stringDate]
+//                        let stringDate = dateFormatter.stringFromDate(inThe)
+//                        let displayDay = "\(String(month))/\(String(day))"
+//                        monthDict[displayDay] = timesDictionary[stringDate]
                         
                     }
                 }
                 if check == 0{
                     let calendar = NSCalendar.currentCalendar()
-                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheWeek)
+//                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheWeek)
                     
                     let year =  components.year
                     let month = components.month
                     let day = components.day
                     let displayDay = "\(String(month))/\(String(day))"
-                    MonthDict[displayDay] = 0
+                    monthDict[displayDay] = 0
                     
                 }
             }
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setObject(weekDict, forKey: "WeekArray")
-            let duration = Array(weekDict.values)
-            let realDay = Array(weekDict.keys)
+            let duration = Array(monthDict.values)
+            let realDay = Array(monthDict.keys)
             setChart(realDay, values: duration)
             let arrayBack = NSUserDefaults.standardUserDefaults()
             let timesArray = arrayBack.objectForKey("TimeArray")
-            var actualTimes: [Double] = []
-            for index in 0..<31{
-                actualTimes[index] = timesArray![(timesArray?.count)!-day+index]
-            }
-            totalWater(actualTimes, dictSize: actualTimes.count)
+//            var actualTimes: [Double] = []
+//            for index in 0..<31{
+//                actualTimes[index] = timesArray![(timesArray?.count)!-day+index]
+//            }
+//            totalWater(actualTimes, dictSize: actualTimes.count)
             
         case 2:
             let today = NSDate()
@@ -207,49 +206,43 @@ class GraphViewController: UIViewController {
                     let beforeYear =  beforeComponents.year
                     let beforeMonth = beforeComponents.month
                     let beforeDay = beforeComponents.day
-                    
                     let calendar = NSCalendar.currentCalendar()
-                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheMonth)
+//                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheMonth)
                     
-                    let year =  components.year
-                    let month = components.month
-                    let day = components.day
-                    if year == beforeYear
-                    {
-                        check = 1
-                        let dateFormatter = NSDateFormatter()
-                        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZZ"
-                        //dateFormatter.timeZone = NSTimeZone()
-                        let stringDate = dateFormatter.stringFromDate(inTheYear)
-                        let displayDay = "\(String(month))/\(String(day))"
-                        MonthDict[displayDay] = timesDictionary[stringDate]
-                        
-                    }
+//                    let year =  components.year
+//                    let month = components.month
+//                    let day = components.day
+//                    if year == beforeYear
+//                    {
+//                        check = 1
+//                        let dateFormatter = NSDateFormatter()
+//                        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZZ"
+//                        //dateFormatter.timeZone = NSTimeZone()
+//                        let stringDate = dateFormatter.stringFromDate(inTheYear)
+//                        let displayDay = "\(String(month))"
+//                        yearDict[displayDay] = timesDictionary[stringDate]
+//                        
+//                    }
                 }
                 if check == 0{
                     let calendar = NSCalendar.currentCalendar()
-                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheWeek)
-                    
-                    let year =  components.year
+                    let components = calendar.components([.Day , .Month , .Year], fromDate: inTheYear)
                     let month = components.month
-                    let day = components.day
-                    let displayDay = "\(String(month))/\(String(day))"
-                    MonthDict[displayDay] = 0
+                    let displayDay = "\(String(month))"
+                    yearDict[displayDay] = 0
                     
                 }
             }
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setObject(weekDict, forKey: "WeekArray")
-            let duration = Array(weekDict.values)
-            let realDay = Array(weekDict.keys)
+            let duration = Array(yearDict.values)
+            let realDay = Array(yearDict.keys)
             setChart(realDay, values: duration)
             let arrayBack = NSUserDefaults.standardUserDefaults()
             let timesArray = arrayBack.objectForKey("TimeArray")
-            var actualTimes: [Double] = []
-            for index in 0..<7{
-                actualTimes[index] = timesArray![(timesArray?.count)!-6+index]
-            }
-            totalWater(actualTimes, dictSize: actualTimes.count)
+//            var actualTimes: [Double] = []
+//            for index in 0..<day{
+//                actualTimes[index] = timesArray![(timesArray?.count)!-day+index]
+//            }
+//            totalWater(actualTimes, dictSize: actualTimes.count)
 
         default:
             break
